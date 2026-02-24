@@ -18,7 +18,6 @@ CURRENT_ISSUE = {
     "published": "31-01-2026",
 }
 
-# Dummy articles (from user)
 ARTICLES = [
     {
         "id": "A01",
@@ -72,7 +71,7 @@ ARTICLES = [
 ]
 
 # ============================================================
-# THEME (indigo/navy)
+# THEME
 # ============================================================
 THEME = {
     "primary": "#1f2a44",
@@ -83,24 +82,16 @@ THEME = {
     "banner_grad_2": "#d6f5ff",
 }
 
-# ============================================================
-# ASSETS (optional)
-# ============================================================
 banner_path = Path("assets/banner.png")
 logo_path = Path("assets/logo.png")
 
 # ============================================================
-# STYLES (layout fixed + clean)
+# STYLES (SAFE)
 # ============================================================
 st.markdown(
     f"""
 <style>
-/* Hide any stray first block */
-[data-testid="stAppViewContainer"] .block-container > div:first-child {{
-  display: none !important;
-}}
-
-/* Remove top gap */
+/* Naikkan layout */
 .block-container {{
   max-width: 1200px;
   padding-top: 0rem !important;
@@ -285,7 +276,7 @@ st.markdown(
 )
 st.markdown("</div></div>", unsafe_allow_html=True)
 
-# Navbar (dummy)
+# Navbar
 st.markdown(
     """
 <div class="navbar">
@@ -308,7 +299,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Main layout
 main_col, right_col = st.columns([3, 1], gap="large")
 
 with main_col:
