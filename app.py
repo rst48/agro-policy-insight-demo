@@ -83,10 +83,9 @@ THEME = {
 }
 
 banner_path = Path("assets/banner.png")
-logo_path = Path("assets/logo.png")
 
 # ============================================================
-# STYLES (SAFE)
+# STYLES
 # ============================================================
 st.markdown(
     f"""
@@ -109,48 +108,15 @@ div[data-testid="stToolbar"] {{ display: none !important; }}
   background: #fff;
 }}
 
-/* Banner */
-.banner {{
-  position: relative;
-  height: 120px;
-  border-bottom: none;
-}}
-.banner img {{
-  width: 100%;
-  height: 120px;
-  object-fit: cover;
-  display: block;
+/* Banner - tanpa overlay (supaya tidak dobel) */
+.banner-box {{
+  border: none;
+  border-radius: 10px 10px 0 0;
+  overflow: hidden;
 }}
 .banner-fallback {{
-  height: 120px;
+  height: 220px;
   background: linear-gradient(90deg, {THEME["banner_grad_1"]}, {THEME["banner_grad_2"]});
-}}
-.banner-overlay {{
-  position: absolute; inset: 0;
-  display: flex; align-items: center; gap: 14px;
-  padding: 14px 22px;
-  background: linear-gradient(90deg, rgba(255,255,255,0.90), rgba(255,255,255,0.35));
-}}
-.brandlogo {{
-  width: 58px; height: 58px;
-  border-radius: 10px;
-  background: rgba(255,255,255,0.92);
-  border: 1px solid rgba(0,0,0,0.10);
-  display:flex; align-items:center; justify-content:center;
-  font-weight: 900; color:{THEME["primary"]};
-  letter-spacing: 0.04em;
-}}
-.brandtitle {{
-  margin: 0;
-  font-size: 22px;
-  letter-spacing: -0.02em;
-  color: {THEME["primary"]};
-  font-weight: 900;
-}}
-.brandmeta {{
-  margin-top: 4px;
-  color: {THEME["text_muted"]};
-  font-size: 0.95rem;
 }}
 
 /* Navbar */
@@ -252,29 +218,13 @@ div.stButton>button {{
 # ============================================================
 st.markdown("<div class='ojs-wrap'>", unsafe_allow_html=True)
 
-# Banner
-st.markdown("<div class='banner'>", unsafe_allow_html=True)
+# Banner (gambar saja, tanpa overlay)
+st.markdown("<div class='banner-box'>", unsafe_allow_html=True)
 if banner_path.exists():
     st.image(str(banner_path), use_container_width=True)
 else:
     st.markdown("<div class='banner-fallback'></div>", unsafe_allow_html=True)
-
-st.markdown("<div class='banner-overlay'>", unsafe_allow_html=True)
-if logo_path.exists():
-    st.image(str(logo_path), width=58)
-else:
-    st.markdown("<div class='brandlogo'>API</div>", unsafe_allow_html=True)
-
-st.markdown(
-    """
-<div>
-  <div class="brandtitle">AGRO POLICY INSIGHT</div>
-  <div class="brandmeta">Berbasis data, berorientasi solusi, untuk transformasi pertanian berkelanjutan.</div>
-</div>
-""",
-    unsafe_allow_html=True
-)
-st.markdown("</div></div>", unsafe_allow_html=True)
+st.markdown("</div>", unsafe_allow_html=True)
 
 # Navbar
 st.markdown(
@@ -327,7 +277,6 @@ with main_col:
 """,
             unsafe_allow_html=True
         )
-        # PDF dummy button
         st.button("PDF (dummy)", key=f"pdf_{a['id']}")
 
     st.markdown("</div>", unsafe_allow_html=True)
