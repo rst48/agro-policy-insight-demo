@@ -236,7 +236,6 @@ st.markdown(
     <a href="#">Issues</a>
     <a href="#">Announcements</a>
     <a href="#">Editorial Team</a>
-    <a href="#">Reviewer</a>
     <a href="#">Contact Us</a>
   </div>
   <div class="navright">
@@ -303,3 +302,4 @@ with right_col:
 
 st.markdown("</div>", unsafe_allow_html=True)  # end wrapper
 st.caption("Demo frontend-only (Streamlit). Semua tombol/tautan masih dummy.")
+
