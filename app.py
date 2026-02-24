@@ -1,17 +1,11 @@
 import streamlit as st
 from pathlib import Path
-from datetime import date
 
 # ============================================================
 # CONFIG
 # ============================================================
 st.set_page_config(page_title="Agro Policy Insight", page_icon="🌾", layout="wide")
-st.markdown("""
-<style>
-h1, h2, h3 { margin-top: 0 !important; }
-.block-container > div:first-child { display:none; }
-</style>
-""", unsafe_allow_html=True)
+
 # ============================================================
 # CONTENT
 # ============================================================
@@ -24,13 +18,65 @@ CURRENT_ISSUE = {
     "published": "31-01-2026",
 }
 
+# Dummy articles (from user)
+ARTICLES = [
+    {
+        "id": "A01",
+        "title_id": "Analisis leading indicator sektor pertanian di Indonesia tahun 2004-2022",
+        "title_en": "Leading indicator analysis of the agricultural sector in Indonesia in 2004-2022",
+        "authors": "I Kadek Mira Merta Ningsih, Erni Tri Astuti",
+        "pages": "151–175",
+    },
+    {
+        "id": "A02",
+        "title_id": "Menelisik masa depan kakao berkelanjutan: menjembatani kesenjangan kesediaan membayar konsumen di Indonesia",
+        "title_en": "Exploring sustainable cocoa futures: bridging the consumer willingness-to-pay gap in Indonesia",
+        "authors": "Wednes Aria Yuda, Adi Djoko Guritno, Atris Suyantohadi",
+        "pages": "177–194",
+    },
+    {
+        "id": "A03",
+        "title_id": "Pengaruh status penguasaan lahan dan adopsi teknologi terhadap produksi padi sawah di provinsi sentra padi di Indonesia",
+        "title_en": "The influence of land tenure and technology adoption on lowland rice production in central rice-producing provinces in Indonesia",
+        "authors": "Mewa Ariani, Herlina Tarigan, Sri Hastuti Suhartini, Ening Ariningsih, Sumedi, Sheila Savitri, Erma Suryani, Sudi Mardianto, Sunarsih",
+        "pages": "195–216",
+    },
+    {
+        "id": "A04",
+        "title_id": "Dampak pencabutan subsidi pupuk terhadap kinerja usaha tani dan efisiensi komoditas non-subsidi: studi kasus komoditas kentang dan wortel",
+        "title_en": "The impact of fertilizer subsidy removal on farm performance and efficiency of non-subsidized commodities: a case study of potatoes and carrots commodities",
+        "authors": "Widyadhari Febriani Setyaningrum, Sumedi, Rangga Ditya Yofa",
+        "pages": "217–229",
+    },
+    {
+        "id": "A05",
+        "title_id": "Efektivitas kebijakan pemerintah daerah dalam pengembangan kelembagaan agribisnis lokal domba di Kabupaten Sukabumi, Jawa Barat",
+        "title_en": "The effectiveness of local government policies in developing local sheep agribusiness institutions in Sukabumi Regency, West Java",
+        "authors": "Supardi Rusdiana, Diky Ramdani, Unang Yunasaf, Chalid Talib, Cut Rabiatul Adawiyah, Amam",
+        "pages": "231–247",
+    },
+    {
+        "id": "A06",
+        "title_id": "Pola dan perilaku konsumsi daging ayam ras rumah tangga peserta Program Keluarga Harapan Kota Pekanbaru, Provinsi Riau",
+        "title_en": "Patterns and behavior of broiler chicken meat consumption in households participating in the Program Keluarga Harapan in Pekanbaru City, Riau Province",
+        "authors": "Vilandra Oktavia, Djaimi Bakce, Jumatri Yusri",
+        "pages": "249–264",
+    },
+    {
+        "id": "A07",
+        "title_id": "Factors that play a role in building resilience, autonomy, and sustainability of smallholder coconut farming in Aceh Province",
+        "title_en": "Faktor-faktor yang berperan dalam membangun resiliensi, kemandirian, dan keberlanjutan usaha kelapa rakyat di Provinsi Aceh",
+        "authors": "Henny Sulistyorini, Sumardjo, Anna Fatchiya, Ninuk Purnaningsih, Destika Cahyana",
+        "pages": "265–286",
+    },
+]
+
 # ============================================================
 # THEME (indigo/navy)
 # ============================================================
 THEME = {
-    "primary": "#1f2a44",      # navbar
-    "primary_2": "#2f3f63",
-    "accent": "#ff7a00",       # CTA button
+    "primary": "#1f2a44",
+    "accent": "#ff7a00",
     "border": "rgba(0,0,0,0.08)",
     "text_muted": "rgba(0,0,0,0.62)",
     "banner_grad_1": "#e8efff",
@@ -44,12 +90,17 @@ banner_path = Path("assets/banner.png")
 logo_path = Path("assets/logo.png")
 
 # ============================================================
-# STYLES (Fix: remove top gap, remove banner border, no extra header)
+# STYLES (layout fixed + clean)
 # ============================================================
 st.markdown(
     f"""
 <style>
-/* 1) Naikkan layout (hilangkan space kosong atas) */
+/* Hide any stray first block */
+[data-testid="stAppViewContainer"] .block-container > div:first-child {{
+  display: none !important;
+}}
+
+/* Remove top gap */
 .block-container {{
   max-width: 1200px;
   padding-top: 0rem !important;
@@ -59,7 +110,7 @@ header[data-testid="stHeader"] {{ height: 0 !important; }}
 div[data-testid="stToolbar"] {{ display: none !important; }}
 [data-testid="stAppViewContainer"] {{ padding-top: 0rem !important; }}
 
-/* 2) Wrapper tanpa border */
+/* Wrapper */
 .ojs-wrap {{
   border: none;
   border-radius: 10px;
@@ -67,7 +118,7 @@ div[data-testid="stToolbar"] {{ display: none !important; }}
   background: #fff;
 }}
 
-/* 3) Banner lebih modern + tanpa border hitam bawah */
+/* Banner */
 .banner {{
   position: relative;
   height: 120px;
@@ -83,8 +134,6 @@ div[data-testid="stToolbar"] {{ display: none !important; }}
   height: 120px;
   background: linear-gradient(90deg, {THEME["banner_grad_1"]}, {THEME["banner_grad_2"]});
 }}
-
-/* Overlay */
 .banner-overlay {{
   position: absolute; inset: 0;
   display: flex; align-items: center; gap: 14px;
@@ -142,6 +191,39 @@ div[data-testid="stToolbar"] {{ display: none !important; }}
 .p {{ color: rgba(0,0,0,0.74); line-height: 1.65; font-size: 0.98rem; }}
 .hr {{ border-top: 1px solid {THEME["border"]}; margin: 16px 0; }}
 
+/* Article cards */
+.article {{
+  border: 1px solid {THEME["border"]};
+  border-radius: 12px;
+  padding: 14px;
+  background: #fff;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.04);
+  margin-bottom: 12px;
+}}
+.article-title {{
+  font-weight: 900;
+  font-size: 1.02rem;
+  margin: 0 0 6px 0;
+}}
+.article-sub {{
+  color: rgba(0,0,0,0.62);
+  font-size: 0.95rem;
+  margin: 0 0 8px 0;
+}}
+.article-meta {{
+  color: rgba(0,0,0,0.58);
+  font-size: 0.9rem;
+}}
+.tag {{
+  display:inline-block;
+  border: 1px solid rgba(0,0,0,0.10);
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 0.82rem;
+  margin-right: 8px;
+  color: rgba(0,0,0,0.65);
+}}
+
 /* Right Sidebar */
 .sidebarbox {{
   border: 1px solid {THEME["border"]};
@@ -175,11 +257,11 @@ div.stButton>button {{
 )
 
 # ============================================================
-# OJS-like Shell
+# SHELL
 # ============================================================
 st.markdown("<div class='ojs-wrap'>", unsafe_allow_html=True)
 
-# ---------------- Banner ----------------
+# Banner
 st.markdown("<div class='banner'>", unsafe_allow_html=True)
 if banner_path.exists():
     st.image(str(banner_path), use_container_width=True)
@@ -201,9 +283,9 @@ st.markdown(
 """,
     unsafe_allow_html=True
 )
-st.markdown("</div></div>", unsafe_allow_html=True)  # end overlay + banner
+st.markdown("</div></div>", unsafe_allow_html=True)
 
-# ---------------- Navbar ----------------
+# Navbar (dummy)
 st.markdown(
     """
 <div class="navbar">
@@ -226,9 +308,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# ============================================================
-# Main content + right sidebar (no extra title/logo below banner)
-# ============================================================
+# Main layout
 main_col, right_col = st.columns([3, 1], gap="large")
 
 with main_col:
@@ -242,6 +322,23 @@ with main_col:
     st.markdown("<div class='h2'>Current Issue</div>", unsafe_allow_html=True)
     st.markdown(f"<div class='p'><b>{CURRENT_ISSUE['title']}</b></div>", unsafe_allow_html=True)
     st.markdown(f"<div class='p'><b>Published:</b> {CURRENT_ISSUE['published']}</div>", unsafe_allow_html=True)
+
+    st.markdown("<div class='hr'></div>", unsafe_allow_html=True)
+    st.markdown("<div class='h2'>Articles</div>", unsafe_allow_html=True)
+
+    for a in ARTICLES:
+        st.markdown(
+            f"""
+<div class="article">
+  <div class="article-title">{a["title_id"]}</div>
+  <div class="article-sub">{a["title_en"]}</div>
+  <div class="article-meta"><span class="tag">Pages {a["pages"]}</span>{a["authors"]}</div>
+</div>
+""",
+            unsafe_allow_html=True
+        )
+        # PDF dummy button
+        st.button("PDF (dummy)", key=f"pdf_{a['id']}")
 
     st.markdown("</div>", unsafe_allow_html=True)
 
@@ -267,4 +364,3 @@ with right_col:
 
 st.markdown("</div>", unsafe_allow_html=True)  # end wrapper
 st.caption("Demo frontend-only (Streamlit). Semua tombol/tautan masih dummy.")
-
