@@ -71,15 +71,16 @@ ARTICLES = [
 ]
 
 # ============================================================
-# THEME
+# THEME (Orange + Dark Turquoise)
 # ============================================================
 THEME = {
-    "primary": "#1f2a44",
-    "accent": "#ff7a00",
+    "primary": "#0F4C5C",      # dark turquoise
+    "primary_2": "#146C7A",    # lighter turquoise for gradient/hover
+    "accent": "#F77F00",       # orange
     "border": "rgba(0,0,0,0.08)",
     "text_muted": "rgba(0,0,0,0.62)",
-    "banner_grad_1": "#e8efff",
-    "banner_grad_2": "#d6f5ff",
+    "banner_grad_1": "#FFE8CC",  # soft orange
+    "banner_grad_2": "#D9F2F1",  # soft turquoise
 }
 
 banner_path = Path("assets/banner.png")
@@ -103,15 +104,15 @@ div[data-testid="stToolbar"] {{ display: none !important; }}
 /* Wrapper */
 .ojs-wrap {{
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   overflow: hidden;
   background: #fff;
 }}
 
-/* Banner - tanpa overlay (supaya tidak dobel) */
+/* Banner (gambar saja supaya tidak dobel) */
 .banner-box {{
   border: none;
-  border-radius: 10px 10px 0 0;
+  border-radius: 12px 12px 0 0;
   overflow: hidden;
 }}
 .banner-fallback {{
@@ -121,7 +122,7 @@ div[data-testid="stToolbar"] {{ display: none !important; }}
 
 /* Navbar */
 .navbar {{
-  background: {THEME["primary"]};
+  background: linear-gradient(90deg, {THEME["primary"]}, {THEME["primary_2"]});
   padding: 10px 14px;
   display:flex; align-items:center; justify-content:space-between;
   gap: 12px; flex-wrap: wrap;
@@ -131,8 +132,12 @@ div[data-testid="stToolbar"] {{ display: none !important; }}
   color: rgba(255,255,255,0.93);
   text-decoration:none;
   font-size: 0.95rem;
+  font-weight: 600;
 }}
-.navlinks a:hover {{ text-decoration: underline; }}
+.navlinks a:hover {{
+  text-decoration: underline;
+  text-decoration-color: {THEME["accent"]};
+}}
 .navright {{ display:flex; gap: 10px; align-items:center; }}
 .navpill {{
   color: rgba(255,255,255,0.92);
@@ -144,7 +149,7 @@ div[data-testid="stToolbar"] {{ display: none !important; }}
 
 /* Content */
 .page {{ padding: 18px 18px 8px 18px; }}
-.h2 {{ font-size: 20px; font-weight: 900; margin: 0 0 10px 0; }}
+.h2 {{ font-size: 20px; font-weight: 900; margin: 0 0 10px 0; color: rgba(0,0,0,0.85); }}
 .p {{ color: rgba(0,0,0,0.74); line-height: 1.65; font-size: 0.98rem; }}
 .hr {{ border-top: 1px solid {THEME["border"]}; margin: 16px 0; }}
 
@@ -155,12 +160,13 @@ div[data-testid="stToolbar"] {{ display: none !important; }}
   padding: 14px;
   background: #fff;
   box-shadow: 0 10px 22px rgba(0,0,0,0.04);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }}
 .article-title {{
   font-weight: 900;
   font-size: 1.02rem;
   margin: 0 0 6px 0;
+  color: {THEME["primary"]};
 }}
 .article-sub {{
   color: rgba(0,0,0,0.62);
@@ -180,6 +186,10 @@ div[data-testid="stToolbar"] {{ display: none !important; }}
   margin-right: 8px;
   color: rgba(0,0,0,0.65);
 }}
+.tag-orange {{
+  border-color: rgba(247,127,0,0.35);
+  color: rgba(247,127,0,0.95);
+}}
 
 /* Right Sidebar */
 .sidebarbox {{
@@ -190,7 +200,7 @@ div[data-testid="stToolbar"] {{ display: none !important; }}
   box-shadow: 0 10px 24px rgba(0,0,0,0.04);
 }}
 .sidebarbox + .sidebarbox {{ margin-top: 12px; }}
-.sb-title {{ font-weight: 900; margin-bottom: 10px; }}
+.sb-title {{ font-weight: 900; margin-bottom: 10px; color: rgba(0,0,0,0.85); }}
 .sb-muted {{
   color: {THEME["text_muted"]};
   font-size: 0.92rem;
@@ -208,6 +218,16 @@ div.stButton>button {{
   color: white !important;
   border: 1px solid rgba(0,0,0,0.10) !important;
 }}
+/* make PDF dummy button look like outline */
+.pdf-btn div.stButton>button {{
+  background: white !important;
+  color: {THEME["primary"]} !important;
+  border: 1px solid rgba(15,76,92,0.35) !important;
+}}
+.pdf-btn div.stButton>button:hover {{
+  border: 1px solid rgba(247,127,0,0.65) !important;
+  color: rgba(247,127,0,1) !important;
+}}
 </style>
 """,
     unsafe_allow_html=True
@@ -218,7 +238,7 @@ div.stButton>button {{
 # ============================================================
 st.markdown("<div class='ojs-wrap'>", unsafe_allow_html=True)
 
-# Banner (gambar saja, tanpa overlay)
+# Banner (gambar saja)
 st.markdown("<div class='banner-box'>", unsafe_allow_html=True)
 if banner_path.exists():
     st.image(str(banner_path), use_container_width=True)
@@ -236,6 +256,7 @@ st.markdown(
     <a href="#">Issues</a>
     <a href="#">Announcements</a>
     <a href="#">Editorial Team</a>
+    <a href="#">Reviewer</a>
     <a href="#">Contact Us</a>
   </div>
   <div class="navright">
@@ -271,12 +292,14 @@ with main_col:
 <div class="article">
   <div class="article-title">{a["title_id"]}</div>
   <div class="article-sub">{a["title_en"]}</div>
-  <div class="article-meta"><span class="tag">Pages {a["pages"]}</span>{a["authors"]}</div>
+  <div class="article-meta"><span class="tag tag-orange">Pages {a["pages"]}</span>{a["authors"]}</div>
 </div>
 """,
             unsafe_allow_html=True
         )
+        st.markdown("<div class='pdf-btn'>", unsafe_allow_html=True)
         st.button("PDF (dummy)", key=f"pdf_{a['id']}")
+        st.markdown("</div>", unsafe_allow_html=True)
 
     st.markdown("</div>", unsafe_allow_html=True)
 
@@ -302,4 +325,3 @@ with right_col:
 
 st.markdown("</div>", unsafe_allow_html=True)  # end wrapper
 st.caption("Demo frontend-only (Streamlit). Semua tombol/tautan masih dummy.")
-
