@@ -74,7 +74,7 @@ ARTICLES = [
 # THEME (Orange + Dark Turquoise)
 # ============================================================
 THEME = {
-    "primary": "#0F4C5C",      # dark turquoise
+    "primary": "#006D6F",      # dark turquoise
     "primary_2": "#146C7A",    # lighter turquoise for gradient/hover
     "accent": "#F77F00",       # orange
     "border": "rgba(0,0,0,0.08)",
@@ -325,3 +325,4 @@ with right_col:
 
 st.markdown("</div>", unsafe_allow_html=True)  # end wrapper
 st.caption("Demo frontend-only (Streamlit). Semua tombol/tautan masih dummy.")
+
