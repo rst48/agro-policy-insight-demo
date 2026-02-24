@@ -6,7 +6,12 @@ from datetime import date
 # CONFIG
 # ============================================================
 st.set_page_config(page_title="Agro Policy Insight", page_icon="🌾", layout="wide")
-
+st.markdown("""
+<style>
+h1, h2, h3 { margin-top: 0 !important; }
+.block-container > div:first-child { display:none; }
+</style>
+""", unsafe_allow_html=True)
 # ============================================================
 # CONTENT
 # ============================================================
@@ -262,3 +267,4 @@ with right_col:
 
 st.markdown("</div>", unsafe_allow_html=True)  # end wrapper
 st.caption("Demo frontend-only (Streamlit). Semua tombol/tautan masih dummy.")
+
