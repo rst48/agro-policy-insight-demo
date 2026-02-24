@@ -10,7 +10,7 @@ st.set_page_config(page_title="Agro Policy Insight", page_icon="🌾", layout="w
 # CONTENT
 # ============================================================
 FULL_DESCRIPTION = """
-Agro Policy Insight merupakan kumpulan policy brief di bidang pembangunan pertanian yang disusun sebagai bahan analisis dan rekomendasi kebijakan dalam mendukung pembangunan pertanian yang inklusif, berdaya saing, dan berkelanjutan. Setiap policy brief mengangkat isu-isu strategis di bidang pertanian khususnya sosial ekonomi pertanian yang dianalisis secara ringkas berbasis data dan temuan lapangan. Melalui penyajian rekomendasi kebijakan yang aplikatif dan berorientasi pada pengambilan keputusan, publikasi ini diharapkan dapat menjadi rujukan bagi para pemangku kepentingan dalam merumuskan kebijakan sosial ekonomi pertanian yang responsif terhadap tantangan aktual dan mampu mendorong transformasi sektor pertanian secara berkelanjutan.
+Agro Policy Insight merupakan kumpulan policy brief di bidang pembangunan pertanian yang disusun sebagai bahan analisis dan rekomendasi kebijakan dalam mendukung pembangunan pertanian yang inklusif, berdaya saing, dan berkelanjutan. Setiap policy brief mengangkat isu-isu strategis di bidang pertanian khususnya pembangunan pertanian yang dianalisis secara ringkas berbasis data dan temuan lapangan. Melalui penyajian rekomendasi kebijakan yang aplikatif dan berorientasi pada pengambilan keputusan, publikasi ini diharapkan dapat menjadi rujukan bagi para pemangku kepentingan dalam merumuskan kebijakan pembangunan pertanian yang responsif terhadap tantangan aktual dan mampu mendorong transformasi sektor pertanian secara berkelanjutan.
 """.strip()
 
 CURRENT_ISSUE = {
@@ -325,5 +325,6 @@ with right_col:
 
 st.markdown("</div>", unsafe_allow_html=True)  # end wrapper
 st.caption("Demo frontend-only (Streamlit). Semua tombol/tautan masih dummy.")
+
 
 
